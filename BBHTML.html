@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="ContentType">
+        <meta content="utf-8" http-equiv="encoding">
+    </head>
+    <body>
+        <canvas id="gameCanvas" width="1920" height="1080"></canvas> <!-- //// -->
+        <script>
+            ////Variables 
+            var canvas;
+            var canvasContext;
+            window.onload = function() {
+                canvas = document.getElementById('gameCanvas'); ////
+                canvasContext = canvas.getContext('2d'); ////
+
+                drawEverything(); ////
+            }
+
+            function BGcolor() {
+                canvasContext.fillStyle = 'black';
+                canvasContext.fillRect(0,0, canvas.width, canvas.height);
+
+            }
+
+            function Ball() {
+                canvasContext.fillStyle = 'white';
+                canvasContext.beginPath();
+                canvasContext.arc(75, 75, 20, 0, Math.PI*2, true);
+                canvasContext.fill();
+            }
+
+            function drawEverything() {
+                //// Background 
+                BGcolor(); //
+                Ball();
+
+            }
+        </script>    
+    </body>
+</html>
