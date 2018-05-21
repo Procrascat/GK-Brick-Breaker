@@ -43,25 +43,25 @@
      BallX += BallXSpeed;
      BallY += BallYSpeed;
 
-     Bounds(); 
+     Bounds(); ////
 
  }
 
  function Bounds() {
      //// Boundaries 
-     if(BallX > canvas.width) {
-        BallX *= -1; ///
+     if(BallX >= canvas.width) {
+        BallXSpeed *= -1; ///
      }
 
-     if(BallX < 0) {
-        BallX *= -1;///
+     if(BallX <= 0) {
+        BallXSpeed *= -1; ///
      }
 
-     if(BallY > canvas.height) {
-        BallX *= -1;////
+     if(BallY >= canvas.height) {
+        BallYSpeed *= -1; ////
      }
 
-     if(BallY < 0) {
-        BallX *= -1;////
+     if(BallY <= 0) {
+        BallYSpeed *= -1; ////
      }
  }
