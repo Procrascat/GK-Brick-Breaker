@@ -1,13 +1,16 @@
  ////Variables 
- var canvas;
- var canvasContext;
- var BallX = canvas.width/2; /////
- var BallY = canvas.height/2;
- var BallXSpeed = 3;
- var BallYSpeed = 3;
- var PXpos = 400;
- var PYpos = 500;
- var Pwide = 75;
+ var BallX = 400; ///
+ var BallY = 300; ///
+ var canvas; ///
+ var canvasContext; ///
+ 
+ var BallXSpeed = 3; ///
+ var BallYSpeed = 3; ///
+ var PXpos = 400; ///
+ var PYpos = 500; ///
+ var Pwidth = 75; ///
+ var Pheight = 10; ///
+
  ////////
  window.onload = function() {
      canvas = document.getElementById('gameCanvas'); ////
@@ -19,7 +22,7 @@
     } );
    
 
-     var Framerate = 60
+     var Framerate = 60;
      setInterval(function() {
          drawEverything();
          moveEverything();
@@ -61,7 +64,7 @@
     //// Background 
         colorRect(0, 0, canvas.width, canvas.height,'black'); //
     ///// Paddle
-        colorRect(PXpos, PYpos, Pwide, 10, 'white'); //
+        colorRect(PXpos, PYpos, Pwidth, Pheight, 'white'); //
     //// Ball Sprite
         Ball(BallX, BallY, 10, 'white');     //     
  }
@@ -104,7 +107,7 @@
  }
 
  function BallCollision() {
-     if(BallX <= Pwidth && BallX >= PXpos + Pwidth && BallY >= Pheight) {
+     if(BallY >= PYpos - 10  && BallX >= PXpos  && BallX <= PXpos + Pwidth && BallY <= PYpos +10) {
         BallYSpeed *= -1;
 
      }
