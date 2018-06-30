@@ -7,9 +7,10 @@
  var BallXSpeed = 3; ///
  var BallYSpeed = 3; ///
  var PXpos = 400; ///
- var PYpos = 500; ///
- var Pwidth = 75; ///
- var Pheight = 10; ///
+ var PYpos = 540; ///
+ const Pwidth = 75; ///
+ const Pheight = 10; ///
+ var PCenter = PXpos + (Pwidth/2); ///
 
  ////////
  window.onload = function() {
@@ -109,6 +110,12 @@
  function BallCollision() {
      if(BallY >= PYpos - 10  && BallX >= PXpos  && BallX <= PXpos + Pwidth && BallY <= PYpos +10) {
         BallYSpeed *= -1;
+
+        var BDelflection = BallX - (PXpos + Pwidth/2);
+
+        BallXSpeed = BDelflection * .25; 
+        
+        
 
      }
  } 
