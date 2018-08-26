@@ -3,7 +3,7 @@ var BallX = 400; ///
 var BallY = 300; ///
 var canvas; ///
 var canvasContext; ///
-var brickGrid = Array.length = B_Column * B_Row;
+var brickGrid = new Array(B_Column, B_Row); 
 var BallXSpeed = 3; ///
 var BallYSpeed = 3; ///
 var PXpos = 400; ///
@@ -22,16 +22,17 @@ window.onload = function() {
     canvas = document.getElementById('gameCanvas'); ////
     canvasContext = canvas.getContext('2d'); ////
     
+    resetBricks(); /// 
+
     canvas.addEventListener('mousemove', function(evt) {
        var mousePos = CalculateMousePos(evt); ////
-       PXpos = mousePos.x - (Pwidth/2); /// center of paddle
+       PXpos = mousePos.x - (Pwidth/2); /// center of paddle 
+   } );
 
    
-   } );
- 
 
 var Framerate = 60;
-    setInterval(function() {
+    setInterval(function() { 
         drawEverything();
         moveEverything();
    }, 1000/Framerate);
@@ -59,7 +60,6 @@ function colorRect(Xpos, Ypos, BLength, BWidth, BColor) {
 }
 
 
-
 function Ball(CXpos, CYpos, Clength, CColor) {
    canvasContext.beginPath();
    canvasContext.fillStyle = CColor;
@@ -69,30 +69,56 @@ function Ball(CXpos, CYpos, Clength, CColor) {
 }
 
 function Brick() {
-    for(var BrickCCord = 0; BrickCCord <= B_Column; BrickCCord++) { // adds brick in each column
-       for(var BrickRCord = 0; BrickRCord <= B_Row; BrickRCord++) { // adds brick in each row
+    
+    for(var BrickCCord = 0; BrickCCord<=B_Column; BrickCCord++) { // adds brick in each column
+       for(var BrickRCord = 0; BrickRCord<=B_Row; BrickRCord++) { // adds brick in each row
         if(BrickCord(BrickCCord, BrickRCord)) {
        var BrickX = BrickCCord * B_Width;
        var BrickY = BrickRCord * B_Height;
        /////Brick
-       colorRect(BrickX, BrickY, B_Width - B_Gap, B_Height - B_Gap, 'blue'); //
+       colorRect(BrickX, BrickY, (B_Width - B_Gap), (B_Height - B_Gap), 'blue'); //
         }
        }
     }
 }
+
 function resetBricks() {
-    for(var i = 0; i <= B_Column * B_Row; i++) {
-        if(Math.random() <= 0.5) {
+    for(var i = 0; i < B_Column * B_Row; i++) {
             brickGrid[i] = 1;
-        }else {
-            brickGrid[i] = 0;
-        }
     }
 } 
+
 function BrickCord(BrickCCord, BrickRCord) {
-    var BrickIndex = BrickCCord + B_Column*BrickRCord;
+    var BrickIndex = BrickCordTOIndex(BrickCCord, BrickRCord);
     return (brickGrid[BrickIndex] == 1);
 }
+
+function BrickRemovalandCheck(BallX, BallY) {
+
+    // XY Brick removing variables
+    var RBrickX = BallX/B_Width;
+    var RBrickY = BallY/B_Height;
+
+    // Math.floor round to nearest whole number
+    RBrickX = Math.floor(RBrickX);
+    RBrickY = Math.floor(RBrickY);
+
+    //checks if ball is within the range of a brick
+    if(RBrickX < 0 || RBrickX >= B_Column ||
+       RBrickY < 0 || RBrickY >= B_Row) {
+        return; //ends function to prevent array error
+    }
+
+    var brickIndex = BrickCordTOIndex(RBrickX, RBrickY);
+
+    brickGrid[brickIndex] = 0;
+
+}
+
+function BrickCordTOIndex(brickCol, brickRow) {
+    return (brickCol + B_Column*brickRow);
+}
+
 function drawEverything() {
    
    //// Background 
@@ -101,8 +127,7 @@ function drawEverything() {
    ///// Paddle
    colorRect(PXpos, PYpos, Pwidth, Pheight, 'white'); // 
    //// Bricks 
-   Brick(); ///   
-
+   Brick();
    //// Ball Sprite
    Ball(BallX, BallY, 10, 'white');     //   
   
@@ -114,11 +139,12 @@ function moveEverything() {
     BallY += BallYSpeed;
 
     Bounds(); ////
-    BrickCord(); ///
-    BallCollision();
-    resetBricks(); /// 
     
-
+    BallCollision();
+  
+    BrickRemoval(BallX, BallY); /// 
+    
+    BrickCordTOIndex(B_Column, B_Row);
     
 
 }
